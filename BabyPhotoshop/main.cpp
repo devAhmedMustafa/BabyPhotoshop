@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     Label label2 = Label("Grayscale", window);
 
     label2.move(100, 100);
-    Button loadImage = Button("Apply", window);
+    Button loadImage = Button("Load Image", window);
     ImageLoader il = ImageLoader(&loadImage);
 
     SubLabel sub = SubLabel("Hello", window);
