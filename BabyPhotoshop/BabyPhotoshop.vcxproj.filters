@@ -38,6 +38,9 @@
     <ClCompile Include="MainWidgets\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MainWidgets\SubLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWidgets\Label.h">
@@ -50,6 +53,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MainWidgets\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainWidgets\SubLabel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

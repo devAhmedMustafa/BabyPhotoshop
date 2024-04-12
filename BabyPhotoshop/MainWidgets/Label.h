@@ -4,6 +4,7 @@
 #include <QPointF>
 #include <Qt>
 #include <QRect>
+#include <QFont>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QFontMetrics>
@@ -13,18 +14,16 @@ using std::string;
 
 class Label : public QLabel
 {
-private:
+protected:
 	QString defaultStyle = "\
 		color: black;\
-		border-radius: 10px;\
-		padding: 10px;\
+		font-weight: bold;\
+		font-size: 26px\
 	";
 
-	Qt::GlobalColor defaultFontColor = Qt::white;
-	int padding = 5;
+	QFont defaultFont = QFont("Arial", 20);
 
 public:
 	Label(QString name, QWidget& parent);
-	void paintEvent(QPaintEvent* e);
 };
 

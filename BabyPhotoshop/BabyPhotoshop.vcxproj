@@ -94,12 +94,14 @@
     <ClCompile Include="MainWidgets\Label.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWidgets\Window.cpp" />
+    <ClCompile Include="MainWidgets\SubLabel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWidgets\Button.h" />
     <ClInclude Include="MainWidgets\ImageLoader.h" />
     <ClInclude Include="MainWidgets\Label.h" />
     <ClInclude Include="MainWidgets\Window.h" />
+    <ClInclude Include="MainWidgets\SubLabel.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="UIs\ImageLoad.ui" />
