@@ -16,6 +16,13 @@ private:
     QLabel background = QLabel(this);
 
 public:
-	Window(int, int);
+
+	Window(int x, int y) : QWidget(nullptr) {
+		setFixedSize(x, y);
+		setWindowTitle(programName);
+
+		background.setPixmap(backImage);
+		background.setGeometry(0, 0, width(), height());
+	}
 };
 

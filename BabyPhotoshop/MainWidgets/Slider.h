@@ -3,11 +3,14 @@
 #include <QWidget>
 #include <QSlider>
 
-class Slider
+class Slider : public QSlider
 {
 public:
 
-	Slider();
+	Slider(QWidget& parent, int min, int max):QSlider(Qt::Horizontal, &parent){
+		setRange(min, max);
+		setSingleStep(1);
+	}
 
 };
 

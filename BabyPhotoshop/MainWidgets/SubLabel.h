@@ -13,6 +13,11 @@ protected:
 	QFont defaultFont = QFont("Arial", 22);
 	
 public:
-	SubLabel(QString name, QWidget& parent);
+
+	SubLabel(QString name, QWidget& parent) : QLabel(name, &parent) {
+		setText(name);
+		setStyleSheet(defaultStyle);
+		setFont(defaultFont);
+	}
 };
 

@@ -11,8 +11,13 @@ public:
 	QVBoxLayout* container;
 	QString defaultStyles = "";
 
-	VContainer(QWidget&);
-	void AddChild(QWidget&);
+	VContainer(QWidget& parent) {
+		container = new QVBoxLayout(this);
+	}
+
+	void AddChild(QWidget& widget) {
+		container->addWidget(&widget);
+	}
 
 };
 

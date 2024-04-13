@@ -4,16 +4,18 @@
 #include <QHBoxLayout>
 
 class HContainer : public QWidget
-{
-
-private:
-	
+{	
 public:
 	
 	QHBoxLayout* container;
 
-	HContainer(QWidget& );
-	void AddChild(QWidget& );
+	HContainer(QWidget& parent) {
+		container = new QHBoxLayout(this);
+	}
+
+	void AddChild(QWidget& widget) {
+		container->addWidget(&widget);
+	}
 
 };
 

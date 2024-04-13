@@ -11,8 +11,6 @@
 #include <QPainterPath>
 #include <QPalette>
 
-using std::string;
-
 class Label : public QLabel
 {
 protected:
@@ -22,10 +20,18 @@ protected:
 		font-size: 22px;\
 	";
 
-	QFont defaultFont = QFont("Arial", 18);
+	QFont defaultFont = QFont("Arial", 16);
 
 public:
-	Label(QString name, QWidget& parent);
-	void ChangeColor(QString);
+
+	Label(QString name, QWidget& parent) : QLabel(name, &parent) {
+		setText(name);
+		setStyleSheet(defaultStyle);
+		setFont(defaultFont);
+	}
+
+	void ChangeColor(QString color) {
+		setStyleSheet(defaultStyle + "color:" + color + ";");
+	}
 };
 

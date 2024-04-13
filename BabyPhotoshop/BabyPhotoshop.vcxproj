@@ -89,25 +89,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MainWidgets\HContainer.cpp" />
-    <ClCompile Include="MainWidgets\Button.cpp" />
-    <ClCompile Include="MainWidgets\ImageLoader.cpp" />
-    <ClCompile Include="MainWidgets\Label.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainWidgets\Window.cpp" />
-    <ClCompile Include="MainWidgets\SubLabel.cpp" />
-    <ClCompile Include="MainWidgets\Slider.cpp" />
-    <ClCompile Include="MainWidgets\VContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Filters\Filter.h" />
+    <ClInclude Include="Filters\Filters.h" />
+    <ClInclude Include="MainWidgets\CheckBox.h" />
+    <ClInclude Include="MainWidgets\FilterSection.h" />
     <ClInclude Include="MainWidgets\HContainer.h" />
     <ClInclude Include="MainWidgets\Button.h" />
+    <ClInclude Include="MainWidgets\ImageHolder.h" />
     <ClInclude Include="MainWidgets\ImageLoader.h" />
     <ClInclude Include="MainWidgets\Label.h" />
     <ClInclude Include="MainWidgets\Window.h" />
     <ClInclude Include="MainWidgets\SubLabel.h" />
     <ClInclude Include="MainWidgets\Slider.h" />
     <ClInclude Include="MainWidgets\VContainer.h" />
+    <ClInclude Include="Utilities\Image_Class.h" />
+    <ClInclude Include="Utilities\stb_image.h" />
+    <ClInclude Include="Utilities\stb_image_write.h" />
+    <ClInclude Include="Utilities\Utilities.h" />
     <ClInclude Include="Utilities\WidgetsStyling.h" />
   </ItemGroup>
   <ItemGroup>
