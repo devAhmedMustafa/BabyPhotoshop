@@ -9,6 +9,7 @@
 #include <QPaintEvent>
 #include <QFontMetrics>
 #include <QPainterPath>
+#include <QPalette>
 
 using std::string;
 
@@ -18,12 +19,13 @@ protected:
 	QString defaultStyle = "\
 		color: black;\
 		font-weight: bold;\
-		font-size: 26px\
+		font-size: 22px;\
 	";
 
-	QFont defaultFont = QFont("Arial", 20);
+	QFont defaultFont = QFont("Arial", 18);
 
 public:
 	Label(QString name, QWidget& parent);
+	void ChangeColor(QString);
 };
 
