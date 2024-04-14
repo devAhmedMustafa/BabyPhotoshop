@@ -128,6 +128,27 @@ public:
 	}
 };
 
+class Resize : public Filter {
+public:
+	
+	int w = 0, h = 0;
+
+	void SetW(int w) {
+		this->w = w;
+	}
+
+	void SetH(int h) {
+		this->h = h;
+	}
+
+	Resize(ImageHolder& ih) :Filter(ih){}
+
+	void ApplyFilter() {
+		Filters::Resize(ih->currentImage, w, h);
+		SaveFilter();
+	}
+};
+
 class Frame : public Filter {
 
 public:
@@ -354,6 +375,23 @@ public:
 
 	void ApplyFilter() {
 		Filters::merge_filter(ih->currentImage, *image);
+		SaveFilter();
+	}
+};
+
+class Skew : public Filter {
+public:
+
+	float angle;
+
+	void SetAngle(float a) {
+		angle = a;
+	}
+
+	Skew(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::Skew(ih->currentImage, angle);
 		SaveFilter();
 	}
 };

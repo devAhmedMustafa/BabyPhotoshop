@@ -352,16 +352,42 @@ int main(int argc, char *argv[])
     leftContainer.AddChild(gamma);
 #pragma endregion
 
+#pragma region Resize
+    HContainer resizeOptions = HContainer(window);
+
+    NumberBox neww = NumberBox(window);
+    NumberBox newh = NumberBox(window);
+
+    neww.setRange(1, 8000);
+    newh.setRange(1, 8000);
+
+    resizeOptions.AddChild(neww);
+    resizeOptions.AddChild(newh);
+
+    Resize rsf = Resize(*imageHolder);
+    FilterSection resize = FilterSection(window, "Resize", rsf);
+
+    rsf.connect(&neww, &NumberBox::valueChanged, &rsf, [&rsf](double value) {rsf.SetW(value); });
+    rsf.connect(&newh, &NumberBox::valueChanged, &rsf, [&rsf](double value) {rsf.SetH(value); });
+
+    resize.AddChild(resizeOptions);
+    leftContainer.AddChild(resize);
+#pragma endregion
+
 #pragma region Crop
     HContainer cropOptions = HContainer(window);
 
     NumberBox x = NumberBox(window);
+    x.setRange(1, 8000);
     x.setSingleStep(1);
     NumberBox y = NumberBox(window);
+    y.setRange(1, 8000);
     y.setSingleStep(1);
     NumberBox w = NumberBox(window);
+    w.setRange(1, 8000);
     w.setSingleStep(1);
     NumberBox h = NumberBox(window);
+    h.setRange(1, 8000);
     h.setSingleStep(1);
 
     cropOptions.AddChild(x);
@@ -403,6 +429,22 @@ int main(int argc, char *argv[])
     mergeOptions.AddChild(*imageMergeHolder);
     merge.AddChild(mergeOptions);
     leftContainer.AddChild(merge);
+#pragma endregion
+
+#pragma region Skew
+    HContainer skewOptions = HContainer(window);
+
+    Slider angle = Slider(window, 1, 89);
+
+    skewOptions.AddChild(angle);
+
+    Skew skf = Skew(*imageHolder);
+    FilterSection skew = FilterSection(window, "Skew", skf);
+
+    skf.connect(&angle, &Slider::valueChanged, &skf, [&skf](int value) {skf.SetAngle(value); });
+
+    skew.AddChild(skewOptions);
+    leftContainer.AddChild(skew);
 #pragma endregion
 
 
