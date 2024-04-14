@@ -17,7 +17,6 @@ protected:
 	QString defaultStyle = "\
 		color: black;\
 		font-weight: bold;\
-		font-size: 22px;\
 	";
 
 	QFont defaultFont = QFont("Arial", 16);

@@ -2,6 +2,7 @@
 
 #include "../MainWidgets/ImageHolder.h"
 #include "../Utilities/Utilities.h"
+#include "../MainWidgets/ColorPicker.h"
 #include "Filters.h"
 
 class Filter : public QObject {
@@ -12,7 +13,7 @@ public:
 	std::string namer;
 
 	Filter(ImageHolder& ih) {
-		namer = "a";
+		namer = "~temp";
 		this->ih = &ih;
 	}
 
@@ -130,9 +131,229 @@ public:
 class Frame : public Filter {
 
 public:
-	Frame(ImageHolder& ih) : Filter(ih) {}
-	void ApplyFilter() {
 
+	ColorPicker* colorPicker;
+	bool basic = false, lined = false, fancy = false;
+	int thickness = 1;
+	int color[3] = {255,255,255};
+
+	void SetBasic() {
+		basic = true;
 	}
 
+	void SetLined() {
+		lined = true;
+	}
+
+	void SetFancy() {
+		fancy = true;
+	}
+
+	void SetThickness(int t) {
+		thickness = t;
+	}
+
+	void SetColor() {
+
+		colorPicker->openColorDialog();
+
+		QColor colorPicked = colorPicker->color;
+		color[0] = colorPicked.red();
+		color[1] = colorPicked.green();
+		color[2] = colorPicked.blue();
+	}
+
+	Frame(ImageHolder& ih, ColorPicker& picker) : Filter(ih) {
+		colorPicker = &picker;
+	}
+	void ApplyFilter() {
+		if (basic)
+			Filters::AddBasicFrame(ih->currentImage, thickness, color);
+		else if (lined)
+			Filters::AddLinedFrame(ih->currentImage, thickness, color, new int[3]{255,255,255});
+		if (fancy)
+			Filters::AddFancyFrame(ih->currentImage, thickness, color, new int[3]{255,255,255});
+
+		SaveFilter();
+	}
+
+};
+
+class Noise : public Filter {
+public:
+
+	int power = 1;
+
+	void SetPower(float p) {
+		power = p;
+	}
+
+	Noise(ImageHolder& ih):Filter(ih){}
+
+	void ApplyFilter() {
+		Filters::Noise(ih->currentImage, power);
+		SaveFilter();
+	}
+};
+
+class Bloom : public Filter {
+public:
+
+	double intensity = 1;
+	int threshold = 0;
+
+	void SetIntensity(double i) {
+		intensity = i;
+	}
+	void SetThreshold(int t) {
+		threshold = t;
+	}
+
+	Bloom(ImageHolder& ih):Filter(ih){}
+
+	void ApplyFilter() {
+		Filters::Bloom(ih->currentImage, intensity, threshold);
+		SaveFilter();
+	}
+};
+
+class Oil : public Filter {
+public:
+	
+	int radius = 1;
+	int intLevels = 1;
+
+	void SetRadius(int r) {
+		radius = r;
+	}
+	void SetLevels(int l) {
+		intLevels = l;
+	}
+
+	Oil(ImageHolder& ih):Filter(ih){}
+
+	void ApplyFilter() {
+		Filters::Oil(ih->currentImage, radius, intLevels);
+		SaveFilter();
+	}
+};
+
+class Sunlight : public Filter {
+public:
+	Sunlight(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::sunlight_filter(ih->currentImage);
+		SaveFilter();
+	}
+};
+
+class DetectEdges : public Filter {
+public:
+	DetectEdges(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::detect_edge(ih->currentImage);
+		SaveFilter();
+	}
+};
+
+class Infrared : public Filter {
+public:
+	Infrared(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::infrared_filter(ih->currentImage);
+		SaveFilter();
+	}
+};
+
+class Purple : public Filter {
+public:
+	Purple(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::purple_filter(ih->currentImage);
+		SaveFilter();
+	}
+};
+
+class Brighten : public Filter {
+public:
+	Brighten(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::brighten_filter(ih->currentImage);
+		SaveFilter();
+	}
+};
+
+class Darken : public Filter {
+public:
+	Darken(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::darken_filter(ih->currentImage);
+		SaveFilter();
+	}
+};
+
+class Gamma : public Filter {
+public:
+
+	double gamma = 0;
+
+	void SetGamma(double gamma) {
+		this->gamma = gamma;
+	}
+
+	Gamma(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::GammaFilter(ih->currentImage, gamma);
+		SaveFilter();
+	}
+};
+
+class Crop : public Filter {
+public:
+
+	int x = 0, y = 0, w = 0, h = 0;
+
+	void SetX(int x) {
+		this->x = x;
+	}
+	void SetY(int y) {
+		this->y = y;
+	}
+	void SetW(int w) {
+		this->w = w;
+	}
+	void SetH(int h) {
+		this->h = h;
+	}
+
+	Crop(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::cropImage(ih->currentImage, x, y, w, h);
+		SaveFilter();
+	}
+};
+
+class Merge : public Filter {
+public:
+
+	Image* image;
+
+	void SetImage(Image* image) {
+		this->image = image;
+	}
+
+	Merge(ImageHolder& ih) :Filter(ih) {}
+
+	void ApplyFilter() {
+		Filters::merge_filter(ih->currentImage, *image);
+		SaveFilter();
+	}
 };

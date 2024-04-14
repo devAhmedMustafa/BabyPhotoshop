@@ -7,10 +7,9 @@ class SubLabel : public QLabel
 protected:
 	QString defaultStyle = "\
 		color: #616161;\
-		font-size: 22px\
 	";
 	
-	QFont defaultFont = QFont("Arial", 22);
+	QFont defaultFont = QFont("Arial", 12);
 	
 public:
 

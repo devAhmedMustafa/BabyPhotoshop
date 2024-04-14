@@ -10,6 +10,7 @@ namespace WidgetStyling {
 	void SetBorderRadius(QWidget&, int);
 	void SetFontWeight(QWidget&, QString);
 	void SetFontColor(QWidget&, QString);
+	void SetFontSize(QWidget&, QString);
 
 	void AddProperty(QWidget& widget, QString prop, QString value) {
 		widget.setStyleSheet(widget.styleSheet() + prop + ": " + value + ";");
@@ -26,7 +27,7 @@ namespace WidgetStyling {
 	void SetVAlignment(QVBoxLayout& layout, Qt::AlignmentFlag align) {
 		layout.setAlignment(align);
 	}
-	
+
 	void SetSize(QWidget& widget, int w, int h) {
 		widget.setFixedSize(w, h);
 	}
@@ -36,7 +37,7 @@ namespace WidgetStyling {
 	}
 
 	void SetBorderRadius(QWidget& widget, int radius) {
-		widget.setStyleSheet(widget.styleSheet() + "border-radius: " + QString::number(radius) +"px"+ ";");
+		widget.setStyleSheet(widget.styleSheet() + "border-radius: " + QString::number(radius) + "px" + ";");
 	}
 
 	void SetFontWeight(QWidget& widget, QString weight) {
@@ -45,6 +46,10 @@ namespace WidgetStyling {
 
 	void SetFontColor(QWidget& widget, QString color) {
 		AddProperty(widget, "color", color);
+	}
+
+	void SetFontSize(QWidget& widget, QString size) {
+		AddProperty(widget, "font-size", size);
 	}
 
 }

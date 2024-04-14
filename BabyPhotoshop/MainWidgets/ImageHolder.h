@@ -19,7 +19,7 @@ public:
 	void SetImageMap(QString path) {
 		imageMap = QPixmap(path);
 		currentImage.loadNewImage(path.toStdString());
-		imageMap = imageMap.scaled(800, 800, Qt::KeepAspectRatio);
+		imageMap = imageMap.scaled(500, 500, Qt::KeepAspectRatio);
 		image.setPixmap(imageMap);
 		setFixedSize(imageMap.width(), imageMap.height() );
 		image.setGeometry(0, 0, width(), height());

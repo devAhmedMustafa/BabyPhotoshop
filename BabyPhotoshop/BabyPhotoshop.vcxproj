@@ -95,12 +95,16 @@
     <ClInclude Include="Filters\Filter.h" />
     <ClInclude Include="Filters\Filters.h" />
     <ClInclude Include="MainWidgets\CheckBox.h" />
+    <ClInclude Include="MainWidgets\ColorPicker.h" />
     <ClInclude Include="MainWidgets\FilterSection.h" />
     <ClInclude Include="MainWidgets\HContainer.h" />
     <ClInclude Include="MainWidgets\Button.h" />
     <ClInclude Include="MainWidgets\ImageHolder.h" />
     <ClInclude Include="MainWidgets\ImageLoader.h" />
     <ClInclude Include="MainWidgets\Label.h" />
+    <ClInclude Include="MainWidgets\ImageSaver.h" />
+    <ClInclude Include="MainWidgets\NumberBox.h" />
+    <ClInclude Include="MainWidgets\ScrollableContainers.h" />
     <ClInclude Include="MainWidgets\Window.h" />
     <ClInclude Include="MainWidgets\SubLabel.h" />
     <ClInclude Include="MainWidgets\Slider.h" />
