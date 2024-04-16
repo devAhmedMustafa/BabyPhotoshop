@@ -4,8 +4,10 @@
 #include "../Utilities/Utilities.h"
 #include "../MainWidgets/ColorPicker.h"
 #include "Filters.h"
+#include <QFile>
 
 class Filter : public QObject {
+
 
 public:
 
@@ -20,9 +22,18 @@ public:
 	virtual void ApplyFilter() = 0;
 
 	void SaveFilter() {
+
+		namer += (++Filter::Counter());
 		std::string newPath = "cache/" + namer + ".png";
+
 		ih->currentImage.saveImage(newPath);
 		ih->SetImageMap(QString::fromStdString(newPath));
+
+	}
+
+	static char& Counter() {
+		static char counter = 'A';
+		return counter;
 	}
 
 };

@@ -12,7 +12,7 @@ private:
 	QString programName = "Baby Photoshop";
 
     QString defaultStyle = "";
-    QString backgroundUrl = "images/background.jpg";
+    QString backgroundUrl = "images/background.png";
     QPixmap backImage = QPixmap(backgroundUrl);
     QLabel background = QLabel(this);
 

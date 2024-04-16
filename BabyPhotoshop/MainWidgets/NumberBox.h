@@ -11,6 +11,7 @@ class NumberBox : public QDoubleSpinBox {
                                 "   padding: 3px;"
                                 "   background-color: #ecf0f1;"
                                 "   selection-background-color: #2980b9;"
+                                "   color: black;"
                                 "}"
                                 "QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {"
                                 "   width: 0px;"  

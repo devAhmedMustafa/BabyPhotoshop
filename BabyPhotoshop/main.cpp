@@ -14,30 +14,62 @@
 #include "MainWidgets/ScrollableContainers.h"
 #include "MainWidgets/ImageSaver.h"
 #include "MainWidgets/NumberBox.h"
+#include "MainWidgets/ResetImage.h"
+#include "MainWidgets/Undo.h"
 #include "Filters/Filter.h"
 #include <QScrollArea>
 #include <QSplashScreen>
 #include <QTimer>
+#include <QIcon>
+#include <QDir>
+#include <QFileInfo>
+#include <QDebug>
 
 using namespace std;
 using namespace WidgetStyling;
 
+static void DeleteFilesInFolder(const QString& folderPath)
+{
+    QDir dir(folderPath);
 
+    if (!dir.exists()) {
+        return;
+    }
+
+    QStringList filesList = dir.entryList(QDir::Files);
+    for (const QString& fileName : filesList) {
+        QString filePath = dir.absoluteFilePath(fileName);
+        if (QFile::remove(filePath)) {
+            qDebug() << "Removed file:" << filePath;
+        }
+        else {
+            qDebug() << "Failed to remove file:" << filePath;
+        }
+    }
+}
 
 int main(int argc, char *argv[])
 {
+
+#pragma region SetupApplication
 
     const QString mainBlue = "#2962f3";
     const QString whiteBlue = "#d2daef";
     const int waitTime = 3 * 1000;
 
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon("images/Icon.png"));
+
+    QString pluginsPath = QCoreApplication::applicationDirPath() + "/platforms";
+    app.addLibraryPath(pluginsPath);
 
     QPixmap splashImage("images/Splash.png");
     QSplashScreen splash(splashImage);
     splash.show();
 
     Window window = Window(1000,700);
+
+#pragma endregion
 
 #pragma region Construction
 
@@ -56,16 +88,19 @@ int main(int argc, char *argv[])
     scrollArea->setWidget(&leftContainer);
     scrollArea->setWidgetResizable(true);
 
+    SetVAlignment(*leftContainer.container, Qt::AlignTop);
+    SetVAlignment(*rightContainer.container, Qt::AlignTop);
+
     mainLayout.AddChild(*scrollArea);
     mainLayout.AddChild(rightContainer);
 
 #pragma endregion
 
-#pragma region RightContainer
+#pragma region Preview
 
     // Button Container
     HContainer imageOptionsContainer = HContainer(window);
-    SetHAlignment(*imageOptionsContainer.container, Qt::AlignCenter);
+    SetHAlignment(*imageOptionsContainer.container, Qt::AlignBaseline);
 
     const int btnsWidth = 150, btnsHeight = 50;
     const int btnsBorderRadius = 25;
@@ -95,17 +130,30 @@ int main(int argc, char *argv[])
     ImageSaver saver = ImageSaver(&saveImage, imageHolder);
 
 #pragma endregion
+
+#pragma region Reset Image
+    ResetImage resetImage = ResetImage(window, loader, *imageHolder);
+    SetSize(*resetImage.resetBtn, btnsWidth, btnsHeight);
+    SetBorder(*resetImage.resetBtn, "3px solid #d2daef");
+    SetBorderRadius(*resetImage.resetBtn, btnsBorderRadius);
+    SetFontWeight(*resetImage.resetBtn, "bold");
+#pragma endregion
+
+#pragma region Undo
+    Undo undoFilter = Undo(window,*imageHolder);
+    SetBackgroundColor(*undoFilter.undoBtn, whiteBlue);
+    SetFontColor(*undoFilter.undoBtn, "black");
+#pragma endregion
     
     imageOptionsContainer.AddChild(loadImage);
     imageOptionsContainer.AddChild(saveImage);
+    imageOptionsContainer.AddChild(*resetImage.resetBtn);
+    imageOptionsContainer.AddChild(*undoFilter.undoBtn);
 
     rightContainer.AddChild(imageOptionsContainer);
     rightContainer.AddChild(*imageHolder);
 
 #pragma endregion
-
-    SetVAlignment(*leftContainer.container, Qt::AlignTop);
-    SetVAlignment(*rightContainer.container, Qt::AlignHCenter);
 
 #pragma region Header
 
@@ -492,11 +540,15 @@ int main(int argc, char *argv[])
 
 #pragma endregion
 
-    QTimer::singleShot(waitTime, &splash, &QWidget::close);
-
     window.setLayout(mainLayout.container);
 
+    QTimer::singleShot(waitTime, &splash, &QWidget::close);
     QTimer::singleShot(waitTime, &window, &QWidget::show);
+
+    // Delete Cache
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, [&]() {
+        DeleteFilesInFolder("cache");
+    });
 
     return app.exec();
 }

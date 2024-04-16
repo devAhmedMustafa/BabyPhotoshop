@@ -61,9 +61,27 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <GenerateManifest>No</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <GenerateManifest>No</GenerateManifest>
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <ManifestFile>$(ProjectDir)\Icon.ico</ManifestFile>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)\Icon.ico</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Link>
+      <ManifestFile>$(ProjectDir)\Icon.ico</ManifestFile>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)\Icon.ico</AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -104,7 +122,9 @@
     <ClInclude Include="MainWidgets\Label.h" />
     <ClInclude Include="MainWidgets\ImageSaver.h" />
     <ClInclude Include="MainWidgets\NumberBox.h" />
+    <ClInclude Include="MainWidgets\ResetImage.h" />
     <ClInclude Include="MainWidgets\ScrollableContainers.h" />
+    <ClInclude Include="MainWidgets\Undo.h" />
     <ClInclude Include="MainWidgets\Window.h" />
     <ClInclude Include="MainWidgets\SubLabel.h" />
     <ClInclude Include="MainWidgets\Slider.h" />
@@ -117,6 +137,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="UIs\ImageLoad.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\Icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

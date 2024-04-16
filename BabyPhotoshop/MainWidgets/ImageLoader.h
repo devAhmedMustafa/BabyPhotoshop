@@ -34,11 +34,20 @@ public:
             return;
         }
 
-        // Load the selected image file
         holder->SetImageMap(filePath);
 
-        if (merge != nullptr)
+        std::string namer = "~tempA";
+
+        if (merge != nullptr) {
             merge->SetImage(&holder->currentImage);
+            namer = "~merge";
+        }
+
+        std::string newPath = "cache/" + namer + ".png";
+        holder->currentImage.saveImage(newPath);
+
+        holder->SetImageMap(QString::fromStdString(newPath));
+        filePath = QString::fromStdString(newPath);
 
     }
 
