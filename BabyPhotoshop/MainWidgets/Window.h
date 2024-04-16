@@ -5,24 +5,38 @@
 #include <QPixmap>
 #include <QLabel>
 
+
 class Window : public QWidget
 {
 private:
 	QString programName = "Baby Photoshop";
 
     QString defaultStyle = "";
-    QString backgroundUrl = "C:\\Users\\am180\\source\\repos\\BabyPhotoshop\\BabyPhotoshop\\MainWidgets\\background.jpg";
+    QString backgroundUrl = "images/background.jpg";
     QPixmap backImage = QPixmap(backgroundUrl);
     QLabel background = QLabel(this);
 
 public:
 
 	Window(int x, int y) : QWidget(nullptr) {
-		setFixedSize(x, y);
+		setMinimumSize(x, y);
 		setWindowTitle(programName);
 
 		background.setPixmap(backImage);
 		background.setGeometry(0, 0, width(), height());
+		background.setScaledContents(true);
+
+		setWindowFlags(this->windowFlags() |
+			Qt::WindowMinimizeButtonHint |
+			Qt::WindowMaximizeButtonHint |
+			Qt::Window);
+
+	}
+
+protected:
+	void resizeEvent(QResizeEvent* e) override {
+		background.setPixmap(backImage);
+		background.setGeometry(0, 0, e->size().width(), e->size().height());
 	}
 };
 

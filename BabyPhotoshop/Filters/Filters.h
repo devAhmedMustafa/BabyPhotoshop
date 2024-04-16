@@ -23,7 +23,7 @@ namespace Filters {
     void Resize(Image&, int, int);
     void Noise(Image&, float power);
     void Oil(Image&, int, int);
-    void Bloom(Image&, double, double);
+    void Bloom(Image&, double, int);
     void AddBorder(Image&, int, int, int, int, const int[]);
     void DrawMatrix(Image&, int**, int, int, int, const int[], int, int);
     void DrawFancyFrame(Image&, int**, int, int, const int[], int, int);
@@ -32,7 +32,8 @@ namespace Filters {
     void AddFancyFrame(Image&, int, const int[], const int[]);
     void brighten_filter(Image& image);
     void darken_filter(Image& image);
-    void merge_filter(Image& image1, Image& image2);
+    void merge_intersection(Image& image1, Image& image2);
+    void merge_resize(Image& image1, Image& image2);
     void sunlight_filter(Image& image);
     void cropImage(Image& originalImage, int x, int y, int width, int height);
     void detect_edge(Image& image);
@@ -131,7 +132,7 @@ namespace Filters {
 
     }
 
-    void Bloom(Image& image, double intensity, double threshold) {
+    void Bloom(Image& image, double intensity, int threshold) {
 
         int full = image.width * image.height;
         float current = 0;
@@ -310,7 +311,7 @@ namespace Filters {
             return;
         }
 
-        Image resizedImage(newWidth, newHeight);
+        Image* resizedImage = new Image(newWidth, newHeight);
 
         double widthRatio = static_cast<double>(originalImage.width) / newWidth;
         double heightRatio = static_cast<double>(originalImage.height) / newHeight;
@@ -321,12 +322,12 @@ namespace Filters {
                     int originalX = static_cast<int>(i * widthRatio);
                     int originalY = static_cast<int>(j * heightRatio);
 
-                    resizedImage.setPixel(i, j, k, originalImage.getPixel(originalX, originalY, k));
+                    resizedImage->setPixel(i, j, k, originalImage.getPixel(originalX, originalY, k));
                 }
             }
         }
 
-        ChangeImageData(originalImage, resizedImage);
+        originalImage = *resizedImage;
     }
 
     void InvertFilter(Image& image) {
@@ -470,7 +471,7 @@ namespace Filters {
         }
     }
 
-    void merge_filter(Image& image1, Image& image2) {
+    void merge_intersection(Image& image1, Image& image2) {
         int width1 = image1.width, height1 = image1.height;
         int width2 = image2.width, height2 = image2.height;
 
@@ -493,6 +494,30 @@ namespace Filters {
                 for (int k = 0; k < 3; ++k) {
 
                     image1(i, j, k) = (image1(i, j, k) + image2(i, j, k)) / 2;
+                }
+            }
+        }
+    }
+
+    void merge_resize(Image& image1, Image& image2) {
+        int width1 = image1.width, height1 = image1.height;
+        int width2 = image2.width, height2 = image2.height;
+
+
+        if (height1 != height2) {
+            height1 = max(height1, height2);
+        }
+        if (width1 != width2) {
+            width1 = max(width1, width2);
+        }
+
+        Resize(image1, width1, height1);
+        Resize(image2, width1, height1);
+
+        for (int i = 0; i < image1.width; ++i) {
+            for (int j = 0; j < image1.height; ++j) {
+                for (int k = 0; k < 3; ++k) {
+                    image1(i, j, k) = min(255, (image1(i, j, k) + image2(i, j, k)) / 2);
                 }
             }
         }
@@ -625,23 +650,23 @@ namespace Filters {
     }
 
     void Skew(Image& image, float angle) {
-        angle = angle * M_1_PI / 180;
+        angle = angle * M_PI / 180;
 
         int newWidth = image.width + image.height * sin(angle);
         int newHeight = image.height * cos(angle);
-        Image skewedImage(newWidth, newHeight);
+        Image* skewedImage = new Image(newWidth, newHeight);
 
         for (int i = 0; i < image.width; i++) {
             for (int j = 0; j < image.height; j++) {
                 for (int k = 0; k < 3; k++) {
                     int pj = (j)*cos(angle);
                     int pi = i + (j)*sin(angle);
-                    skewedImage(pi, newHeight - pj - 1, k) = image(i, image.height - j - 1, k);
+                    skewedImage->getPixel(pi, newHeight - pj - 1, k) = image.getPixel(i, image.height - j - 1, k);
                 }
             }
         }
 
-        ChangeImageData(image, skewedImage);
+        image = *skewedImage;
     }
 
 } // Filters

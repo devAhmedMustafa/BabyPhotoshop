@@ -16,33 +16,42 @@
 #include "MainWidgets/NumberBox.h"
 #include "Filters/Filter.h"
 #include <QScrollArea>
+#include <QSplashScreen>
+#include <QTimer>
 
 using namespace std;
 using namespace WidgetStyling;
 
 
+
 int main(int argc, char *argv[])
 {
 
-    cout << "Launched";
-
     const QString mainBlue = "#2962f3";
     const QString whiteBlue = "#d2daef";
+    const int waitTime = 3 * 1000;
 
     QApplication app(argc, argv);
 
-    Window window = Window(1346,728);
+    QPixmap splashImage("images/Splash.png");
+    QSplashScreen splash(splashImage);
+    splash.show();
+
+    Window window = Window(1000,700);
 
 #pragma region Construction
 
     HContainer mainLayout = HContainer(window);
 
     ScrollableContainer leftContainer = ScrollableContainer(&window);
-    SetBackgroundColor(leftContainer, "white");
-    SetBorder(leftContainer, "none");
 
     VContainer rightContainer = VContainer(window);
     QScrollArea* scrollArea = new QScrollArea(&window);
+    SetBackgroundColor(*scrollArea, "transparent");
+    SetBorder(*scrollArea, "none");
+    scrollArea->viewport()->setStyleSheet("background: transparent;");
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     scrollArea->setWidget(&leftContainer);
     scrollArea->setWidgetResizable(true);
@@ -177,7 +186,9 @@ int main(int argc, char *argv[])
     HContainer blurOptions = HContainer(window);
 
     Slider radius = Slider(window, 1, 20);
+    SubLabel radiusLabel = SubLabel("Radius", window);
 
+    blurOptions.AddChild(radiusLabel);
     blurOptions.AddChild(radius);
 
     Blur blf = Blur(*imageHolder);
@@ -231,11 +242,15 @@ int main(int argc, char *argv[])
 
 #pragma region Noise
     HContainer noiseOptions = HContainer(window);
+    SetHAlignment(*noiseOptions.container, Qt::AlignBaseline);
 
     NumberBox power = NumberBox(window);
     power.setRange(1, 10);
     power.setSingleStep(0.1);
 
+    SubLabel powerLabel = SubLabel("Power", window);
+
+    noiseOptions.AddChild(powerLabel);
     noiseOptions.AddChild(power);
 
     Noise nsf = Noise(*imageHolder);
@@ -336,11 +351,15 @@ int main(int argc, char *argv[])
 
 #pragma region Gamma
     HContainer gammaOptions = HContainer(window);
+    SetHAlignment(*gammaOptions.container, Qt::AlignBaseline);
 
     NumberBox gammaF = NumberBox(window);
     gammaF.setRange(0, 10);
     gammaF.setSingleStep(0.1);
 
+    SubLabel gammaLabel = SubLabel("Gamma", window);
+
+    gammaOptions.AddChild(gammaLabel);
     gammaOptions.AddChild(gammaF);
 
     Gamma gmf = Gamma(*imageHolder);
@@ -361,7 +380,12 @@ int main(int argc, char *argv[])
     neww.setRange(1, 8000);
     newh.setRange(1, 8000);
 
+    SubLabel widthLabel = SubLabel("New Width", window);
+    SubLabel heightLabel = SubLabel("New Height", window);
+
+    resizeOptions.AddChild(widthLabel);
     resizeOptions.AddChild(neww);
+    resizeOptions.AddChild(heightLabel);
     resizeOptions.AddChild(newh);
 
     Resize rsf = Resize(*imageHolder);
@@ -390,9 +414,19 @@ int main(int argc, char *argv[])
     h.setRange(1, 8000);
     h.setSingleStep(1);
 
+    SubLabel xLabel = SubLabel("X Point", window);
+    SubLabel yLabel = SubLabel("Y Point", window);
+    SubLabel widthCuttedLabel = SubLabel("Width", window);
+    SubLabel heighCuttedtLabel = SubLabel("Height", window);
+
+    
+    cropOptions.AddChild(xLabel);
     cropOptions.AddChild(x);
+    cropOptions.AddChild(yLabel);
     cropOptions.AddChild(y);
+    cropOptions.AddChild(widthCuttedLabel);
     cropOptions.AddChild(w);
+    cropOptions.AddChild(heighCuttedtLabel);
     cropOptions.AddChild(h);
 
     Crop crf = Crop(*imageHolder);
@@ -409,7 +443,10 @@ int main(int argc, char *argv[])
 
 #pragma region Merge
     HContainer mergeOptions = HContainer(window);
-    SetHAlignment(*mergeOptions.container, Qt::AlignCenter);
+    SetHAlignment(*mergeOptions.container, Qt::AlignBaseline);
+
+    CheckBox resized = CheckBox("Resize Image", window);
+    mergeOptions.AddChild(resized);
 
     ImageHolder* imageMergeHolder = new ImageHolder(window);
     imageMergeHolder->imageMap = imageMergeHolder->imageMap.scaled(100, 100, Qt::KeepAspectRatio);
@@ -423,6 +460,8 @@ int main(int argc, char *argv[])
     Merge mgf = Merge(*imageHolder);
     FilterSection merge = FilterSection(window, "Merge", mgf);
 
+    mgf.connect(&resized, &QCheckBox::stateChanged, &mgf, &Merge::SetModeResized);
+
     ImageLoader mergeLoader = ImageLoader(&loadMergeImage, imageMergeHolder, &mgf);
 
     mergeOptions.AddChild(loadMergeImage);
@@ -433,9 +472,12 @@ int main(int argc, char *argv[])
 
 #pragma region Skew
     HContainer skewOptions = HContainer(window);
+    SetHAlignment(*skewOptions.container, Qt::AlignBaseline);
 
     Slider angle = Slider(window, 1, 89);
+    SubLabel skewAngle = SubLabel("Skew Angle", window);
 
+    skewOptions.AddChild(skewAngle);
     skewOptions.AddChild(angle);
 
     Skew skf = Skew(*imageHolder);
@@ -450,9 +492,11 @@ int main(int argc, char *argv[])
 
 #pragma endregion
 
+    QTimer::singleShot(waitTime, &splash, &QWidget::close);
+
     window.setLayout(mainLayout.container);
 
-    window.show();
+    QTimer::singleShot(waitTime, &window, &QWidget::show);
 
     return app.exec();
 }

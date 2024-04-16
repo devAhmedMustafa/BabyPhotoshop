@@ -367,6 +367,12 @@ public:
 
 	Image* image;
 
+	bool resized = false;
+
+	void SetModeResized() {
+		resized = !resized;
+	}
+
 	void SetImage(Image* image) {
 		this->image = image;
 	}
@@ -374,7 +380,11 @@ public:
 	Merge(ImageHolder& ih) :Filter(ih) {}
 
 	void ApplyFilter() {
-		Filters::merge_filter(ih->currentImage, *image);
+		if (resized)
+			Filters::merge_resize(ih->currentImage, *image);
+		else
+			Filters::merge_intersection(ih->currentImage, *image);
+
 		SaveFilter();
 	}
 };

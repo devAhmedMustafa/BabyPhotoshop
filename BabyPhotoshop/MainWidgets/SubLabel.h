@@ -9,7 +9,7 @@ protected:
 		color: #616161;\
 	";
 	
-	QFont defaultFont = QFont("Arial", 12);
+	QFont defaultFont = QFont("Arial", 10);
 	
 public:
 
