@@ -13,8 +13,8 @@ public:
 	std::string namer = "~temp";
 
 	Undo(QWidget& parent, ImageHolder& ih) : QWidget(&parent){
-		undoBtn = new Button("Undo", parent);
-
+		undoBtn = new Button("Undo Filter", parent);
+		SetSize(*undoBtn, undoBtn->width()+20, undoBtn->height());
 		this->ih = &ih;
 
 		connect(undoBtn, &QPushButton::clicked, this, &Undo::UndoFilter);

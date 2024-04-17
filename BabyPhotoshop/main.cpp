@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     QSplashScreen splash(splashImage);
     splash.show();
 
-    Window window = Window(1000,700);
+    Window window = Window(1200,500);
 
 #pragma endregion
 
@@ -496,8 +496,7 @@ int main(int argc, char *argv[])
     CheckBox resized = CheckBox("Resize Image", window);
     mergeOptions.AddChild(resized);
 
-    ImageHolder* imageMergeHolder = new ImageHolder(window);
-    imageMergeHolder->imageMap = imageMergeHolder->imageMap.scaled(100, 100, Qt::KeepAspectRatio);
+    ImageHolder* imageMergeHolder = new ImageHolder(window, 280);
 
     Button loadMergeImage = Button("Load Image", window);
     SetSize(loadMergeImage, btnsWidth, btnsHeight);

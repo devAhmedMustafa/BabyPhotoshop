@@ -18,15 +18,14 @@ public:
 
         filterHeader = new HContainer(parent);
         SetHAlignment(*filterHeader->container, Qt::AlignVCenter);
-        SetBackgroundColor(*this, "#f0f0f0");
 
+        SetBackgroundColor(*this, "rgba(228, 228, 228, 0.5)");
+        SetBorderRadius(*this, 5);
+        
         filterLabel = new Label(filterName, parent);
         filterHeader->AddChild(*filterLabel);
 
         AddChild(*filterHeader);
-        //for (int i = 0; i < options.size(); i++) {
-        //    AddChild(options[i]);
-        //}
 
         applyBtn = new Button("Apply", parent);
         filterHeader->AddChild(*applyBtn);

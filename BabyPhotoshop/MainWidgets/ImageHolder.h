@@ -12,14 +12,16 @@ public:
 	QLabel image = QLabel(this);
 	Image currentImage;
 
-	ImageHolder(QWidget& parent) : QWidget(&parent) {
+	int scale;
 
+	ImageHolder(QWidget& parent, int scale = 500) : QWidget(&parent) {
+		this->scale = scale;
 	}
 
 	void SetImageMap(QString path) {
 		imageMap = QPixmap(path);
 		currentImage.loadNewImage(path.toStdString());
-		imageMap = imageMap.scaled(500, 500, Qt::KeepAspectRatio);
+		imageMap = imageMap.scaled(scale, scale, Qt::KeepAspectRatio);
 		image.setPixmap(imageMap);
 		setFixedSize(imageMap.width(), imageMap.height() );
 		image.setGeometry(0, 0, width(), height());

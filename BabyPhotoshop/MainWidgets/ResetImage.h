@@ -21,7 +21,15 @@ public:
 	}
 
 	void ResetToOriginal() {
+
+		std::string namer = "~temp";
+
 		ih->SetImageMap(il->filePath);
+		if (Filter::Counter() <= 'A')
+			return;
+
+		std::string newPath = "cache/" + namer + --Filter::Counter() + ".png";
+		ih->SetImageMap(QString::fromStdString(newPath));
 	}
 
 };
