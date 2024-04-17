@@ -22,13 +22,13 @@ public:
 
 	void ResetToOriginal() {
 
-		std::string namer = "~temp";
+		std::string namer = "~tempA";
 
 		ih->SetImageMap(il->filePath);
 		if (Filter::Counter() <= 'A')
 			return;
 
-		std::string newPath = "cache/" + namer + --Filter::Counter() + ".png";
+		std::string newPath = "cache/" + namer + ".png";
 		ih->SetImageMap(QString::fromStdString(newPath));
 	}
 
