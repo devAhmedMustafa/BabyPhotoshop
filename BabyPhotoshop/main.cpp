@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
     const QString mainBlue = "#2962f3";
     const QString whiteBlue = "#d2daef";
-    const int waitTime = 3 * 1000;
+    const int waitTime = 7 * 1000;
 
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon("images/Icon.png"));
@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
 
 #pragma region Header
 
-    Label header = Label("Baby Photoshop", window);
+    Label header = Label("IAM Filter", window);
     header.ChangeColor(mainBlue);
     QFont headerFont = QFont("Trebuchet MS", 22);
     header.setFont(headerFont);

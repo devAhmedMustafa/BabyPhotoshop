@@ -9,7 +9,7 @@
 class Window : public QWidget
 {
 private:
-	QString programName = "Baby Photoshop";
+	QString programName = "IAM Filter";
 
     QString defaultStyle = "";
     QString backgroundUrl = "images/background.png";

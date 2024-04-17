@@ -170,15 +170,15 @@ public:
 	int color[3] = {255,255,255};
 
 	void SetBasic() {
-		basic = true;
+		basic = !basic;
 	}
 
 	void SetLined() {
-		lined = true;
+		lined = !lined;
 	}
 
 	void SetFancy() {
-		fancy = true;
+		fancy = !fancy;
 	}
 
 	void SetThickness(int t) {
