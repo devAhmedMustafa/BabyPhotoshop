@@ -34,6 +34,7 @@ public:
             return;
         }
 
+
         holder->SetImageMap(filePath);
 
         std::string namer = "~tempA";
@@ -44,7 +45,7 @@ public:
         }
 
         std::string newPath = "cache/" + namer + ".png";
-        holder->currentImage.saveImage(newPath);
+        holder->currentImage.saveImage(newPath) ;
 
         holder->SetImageMap(QString::fromStdString(newPath));
         filePath = QString::fromStdString(newPath);

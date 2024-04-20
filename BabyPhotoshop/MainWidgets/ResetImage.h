@@ -28,6 +28,8 @@ public:
 		if (Filter::Counter() <= 'A')
 			return;
 
+		Filter::Counter() = 'A';
+
 		std::string newPath = "cache/" + namer + ".png";
 		ih->SetImageMap(QString::fromStdString(newPath));
 	}

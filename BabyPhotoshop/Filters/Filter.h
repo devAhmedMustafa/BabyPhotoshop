@@ -22,9 +22,7 @@ public:
 	virtual void ApplyFilter() = 0;
 
 	void SaveFilter() {
-
-		namer += (++Filter::Counter());
-		std::string newPath = "cache/" + namer + ".png";
+		std::string newPath = "cache/" + namer + (++Filter::Counter()) + ".png";
 
 		ih->currentImage.saveImage(newPath);
 		ih->SetImageMap(QString::fromStdString(newPath));
